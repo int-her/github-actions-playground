@@ -53,6 +53,9 @@ jobs:
           echo "Last hotfix commit hash: $hotfix_commit"
           echo "Tagging commit with tag: $tag_name"
 
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "${{ github.actor }}"
+
           # 태그 추가 및 푸시
           git tag -a "$tag_name" "$hotfix_commit" -m "Tagging hotfix commit $hotfix_commit"
           git push origin "$tag_name"
