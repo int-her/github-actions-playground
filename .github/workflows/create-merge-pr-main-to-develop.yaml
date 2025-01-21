@@ -47,7 +47,7 @@ jobs:
           hotfix_commit="${{ github.event.pull_request.head.sha }}"
 
           # 태그 이름 생성 (hotfix-{날짜} 형식)
-          branch_suffix=${hotfix_branch#hotfix/}
+          branch_suffix=$(hotfix_branch#hotfix/)
           tag_name="hotfix/$(TZ='Asia/Seoul' date +'%Y%m%d-%H%M')-$branch_suffix"
 
           echo "Last hotfix commit hash: $hotfix_commit"
