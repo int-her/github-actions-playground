@@ -10,9 +10,10 @@ permissions:
 
 jobs:
   create-merge-pr:
-    # if: >
-    #   github.event.pull_request.merged == true &&
-    #   startsWith(github.event.pull_request.head.ref, 'hotfix')
+    if: >
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.base.ref == 'main' &&
+      startsWith(github.event.pull_request.head.ref, 'hotfix')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -35,4 +36,5 @@ jobs:
             --base develop \
             --head main \
             --title "$title" \
-            --body "$body"
+            --body "$body" \
+            --reviewer "${{ github.actor }}"
