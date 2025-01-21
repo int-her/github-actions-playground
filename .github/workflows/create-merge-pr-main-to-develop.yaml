@@ -43,11 +43,10 @@ jobs:
 
       - name: Tag last commit of hotfix branch
         run: |
-          # 핫픽스 브랜치의 마지막 커밋 해시 가져오기
           hotfix_commit="${{ github.event.pull_request.head.sha }}"
+          hotfix_branch="${{ github.event.pull_request.head.ref }}"
 
-          # 태그 이름 생성 (hotfix-{날짜} 형식)
-          branch_suffix=$(hotfix_branch#hotfix/)
+          branch_suffix=${hotfix_branch#hotfix/}
           tag_name="hotfix/$(TZ='Asia/Seoul' date +'%Y%m%d-%H%M')-$branch_suffix"
 
           echo "Last hotfix commit hash: $hotfix_commit"
