@@ -1,0 +1,33 @@
+name: Create Merge PR from main to develop
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  create-merge-pr:
+    # if: >
+    #   github.event.pull_request.merged == true &&
+    #   startsWith(github.event.pull_request.head.ref, 'hotfix')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Debug
+        run: |
+          echo "$github"
+
+      - name: Create or Update Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          title="🔄 [Auto] Sync hotfix changes from main to develop"
+          body="Automated PR to merge changes from main into develop branch. Created on $(TZ='Asia/Seoul' date +'%Y-%m-%d %H:%M:%S') KST."
+
+          echo "Creating new PR"
+          gh pr create \
+            --base develop \
+            --head main \
+            --title "$title" \
+            --body "$body"
